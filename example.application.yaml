@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: demo
+  profiles:
+    active: DEV
+  datasource:
+    url: jdbc:h2:mem:test
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: ceva
+            client-secret: ceva
+            authorization-grant-type: authorization_code
+            scope: openid,profile,email
+            host: localhost
+            port: 8080
+            realm: ceva
+            admin-user: admin
+            admin-pass: admin
+            protocol: http
+      provider:
+        keycloak:
+          issuer-uri: http://localhost:8082/realms/ceva
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8082/realms/ceva/protocol/openid-connect/certs
+
+server:
+  port: 3050
+
+openweathermap:
+  api-key: api
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+        security.oauth2.server.resource: TRACE
