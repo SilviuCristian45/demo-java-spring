@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.dto.LocationDto;
 import com.example.demo.model.WeatherResponse;
+import com.example.demo.utils.OpenWeatherMapProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,11 +22,11 @@ public class WeatherService {
 
     private final Logger logger;
     private final OkHttpClient httpClient;
+    private final String apiKey;
 
-    @Value("${openweathermap.api.key}")
-    private String apiKey;
 
-    public WeatherService() {
+    public WeatherService(OpenWeatherMapProperties openWeatherMapProperties) {
+        this.apiKey = openWeatherMapProperties.getApiKey();
         this.logger = Logger.getLogger(WeatherService.class.getName());
         this.httpClient = new OkHttpClient();
     }

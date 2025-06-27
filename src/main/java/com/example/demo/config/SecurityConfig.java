@@ -2,6 +2,7 @@ package  com.example.demo.config;
 
 import com.example.demo.config.KeycloakRoleConverter;
 import com.example.demo.services.WeatherService;
+import com.example.demo.utils.KeycloakProperties;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,13 +22,18 @@ import java.util.logging.Logger;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+    private final KeycloakProperties keycloakProperties;
     private Logger logger = Logger.getLogger(WeatherService.class.getName());
 
-    @Value("${KEYCLOAK_CLIENT_ID}")
     private String keycloakClientId;
+
+    public SecurityConfig(KeycloakProperties keycloakProperties) {
+        this.keycloakProperties = keycloakProperties;
+    }
 
     @PostConstruct
     public void init() {
+        this.keycloakClientId = keycloakProperties.getClientId();
         this.logger.log(Level.INFO, "SecurityConfig initialized");
     }
 
